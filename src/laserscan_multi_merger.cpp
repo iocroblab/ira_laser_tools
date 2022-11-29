@@ -8,7 +8,7 @@
 #include <pcl/io/pcd_io.h>
 #include <sensor_msgs/PointCloud.h>
 #include <sensor_msgs/PointCloud2.h>
-#include <sensor_msgs/point_cloud_conversion.h> 
+#include <sensor_msgs/point_cloud_conversion.h>
 #include "sensor_msgs/LaserScan.h"
 #include "pcl_ros/point_cloud.h"
 #include <Eigen/Dense>
@@ -172,7 +172,7 @@ void LaserscanMerger::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan,
 			pcl_conversions::toPCL(tmpCloud3, clouds[i]);
 			clouds_modified[i] = true;
 		}
-	}	
+	}
 
     // Count how many scans we have
 	int totalClouds = 0;
@@ -195,7 +195,7 @@ void LaserscanMerger::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan,
 			#endif
 			clouds_modified[i] = false;
 		}
-	
+
 		point_cloud_publisher_.publish(merged_cloud);
 
 		Eigen::MatrixXf points;
@@ -210,7 +210,7 @@ void LaserscanMerger::pointcloud_to_laserscan(Eigen::MatrixXf points, pcl::PCLPo
 	sensor_msgs::LaserScanPtr output(new sensor_msgs::LaserScan());
 	output->header = pcl_conversions::fromPCL(merged_cloud->header);
 	output->header.frame_id = destination_frame.c_str();
-	output->header.stamp = ros::Time(0);  //fixes #265
+	output->header.stamp = ros::Time::now();  //fixes #265
 	output->angle_min = this->angle_min;
 	output->angle_max = this->angle_max;
 	output->angle_increment = this->angle_increment;
